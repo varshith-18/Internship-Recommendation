@@ -1,74 +1,27 @@
-# ml/recommender.py
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from flask import Flask, render_template, request, jsonify
+from ml.recommender import InternshipRecommender
 
-try:
-    from sentence_transformers import SentenceTransformer, util
-    USE_BERT = True
-except ImportError:
-    USE_BERT = False
-    print("⚠️ sentence-transformers not installed. Falling back to TF-IDF.")
+app = Flask(__name__)
 
+# Load your recommender
+recommender = InternshipRecommender("data/internships.csv")
 
-class InternshipRecommender:
-    def __init__(self, csv_path: str):
-        # Load internship dataset
-        self.df = pd.read_csv(csv_path)
-        self.df.fillna("", inplace=True)
+# Route for homepage (index.html)
+@app.route("/")
+def home():
+    return render_template("index.html")   # <-- loads your index.html
 
-        # Combine important columns into one text field
-        self.df["combined"] = (
-            self.df["education"].astype(str) + " " +
-            self.df["skills"].astype(str) + " " +
-            self.df["sectors"].astype(str) + " " +
-            self.df["location"].astype(str)
-        )
+# Route to handle recommendations
+@app.route("/recommend", methods=["POST"])
+def recommend():
+    user_input = {
+        "education": request.form.get("education", ""),
+        "skills": request.form.get("skills", ""),
+        "sectors": request.form.get("sectors", ""),
+        "location": request.form.get("location", "")
+    }
+    results = recommender.recommend(user_input, top_n=5)
+    return jsonify(results)
 
-        if USE_BERT:
-            # Load pre-trained BERT model
-            print("✅ Using Sentence-BERT for embeddings...")
-            self.model = SentenceTransformer("all-MiniLM-L6-v2")
-            self.embeddings = self.model.encode(
-                self.df["combined"].tolist(),
-                convert_to_tensor=True,
-                show_progress_bar=True
-            )
-        else:
-            # Fallback: TF-IDF
-            print("✅ Using TF-IDF for similarity...")
-            self.vectorizer = TfidfVectorizer(stop_words="english")
-            self.tfidf_matrix = self.vectorizer.fit_transform(self.df["combined"])
-
-    def recommend(self, user_input: dict, top_n: int = 5):
-        # Combine user input
-        query = " ".join([
-            user_input.get("education", ""),
-            user_input.get("skills", ""),
-            user_input.get("sectors", ""),
-            user_input.get("location", "")
-        ])
-
-        if USE_BERT:
-            # Encode user query using BERT
-            query_vec = self.model.encode(query, convert_to_tensor=True)
-            scores = util.cos_sim(query_vec, self.embeddings)[0].cpu().tolist()
-        else:
-            # Encode query using TF-IDF
-            query_vec = self.vectorizer.transform([query])
-            scores = cosine_similarity(query_vec, self.tfidf_matrix).flatten()
-
-        # Get top N indices
-        top_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:top_n]
-
-        recommendations = []
-        for idx in top_indices:
-            recommendations.append({
-                "title": self.df.iloc[idx].get("title", "Unknown"),
-                "company": self.df.iloc[idx].get("company", "Unknown"),
-                "location": self.df.iloc[idx].get("location", "Unknown"),
-                "skills_required": self.df.iloc[idx].get("skills", "Not specified"),
-                "score": round(float(scores[idx]), 2)
-            })
-
-        return recommendations
+if __name__ == "__main__":
+    app.run(debug=True)
