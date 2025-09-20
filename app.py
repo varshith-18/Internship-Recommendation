@@ -1,27 +1,36 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from ml.recommender import InternshipRecommender
+from ml.utils import explain_match
 
 app = Flask(__name__)
 
-# Load your recommender
-recommender = InternshipRecommender("data/internships.csv")
+# Initialize ML recommender with your CSV dataset
+recommender = InternshipRecommender(csv_path="data/internships.csv")
 
-# Route for homepage (index.html)
+
 @app.route("/")
 def home():
-    return render_template("index.html")   # <-- loads your index.html
+    return render_template("index.html")
 
-# Route to handle recommendations
+
 @app.route("/recommend", methods=["POST"])
 def recommend():
-    user_input = {
-        "education": request.form.get("education", ""),
-        "skills": request.form.get("skills", ""),
-        "sectors": request.form.get("sectors", ""),
-        "location": request.form.get("location", "")
-    }
-    results = recommender.recommend(user_input, top_n=5)
-    return jsonify(results)
+    user_input = request.get_json()
+
+    # Get top 10 recommendations from rule-based ML model
+    recommendations = recommender.recommend(user_input, top_n=10)
+
+    # Add matched_skills using utils.explain_match
+    for rec in recommendations:
+        rec["matched_skills"] = explain_match(
+            user_input.get("skills", ""), rec.get("skills_required", "")
+        )
+
+    # Optional: print scores for debugging
+    print([r["score"] for r in recommendations])
+
+    return jsonify(recommendations)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
