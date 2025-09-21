@@ -1,0 +1,123 @@
+/* static/css/style.css */
+
+/* Base */
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f9fafb; /* light gray bg */
+  color: #1f2937; /* gray-800 */
+  margin: 0;
+  padding: 0;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+  color: #111827; /* gray-900 */
+}
+
+/* Buttons */
+.btn {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #2563EB; /* main blue */
+  border: none;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #1e4fc2;
+}
+
+.btn-outline-primary {
+  border: 2px solid #2563EB;
+  color: #2563EB;
+  background: #fff;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary.active {
+  background: #2563EB;
+  color: #fff;
+}
+
+/* Bubble buttons (skills & interests) */
+.bubble {
+  display: inline-block;
+  padding: 6px 12px;
+  margin: 4px;
+  border: 1px solid #6B7280; /* Medium Gray */
+  border-radius: 9999px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s;
+}
+
+.bubble.selected {
+  background-color: #2563EB; /* Primary Blue */
+  color: white;
+  border-color: #2563EB;
+}
+
+
+.bubble:hover {
+  border-color: #2563EB;
+  color: #2563EB;
+}
+
+.bubble.active {
+  background: #2563EB;
+  color: #fff;
+  border-color: #2563EB;
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  background: #fff;
+}
+
+/* Alerts */
+.alert-info {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+/* Success & Error (if you need eligibility messages) */
+.alert-success {
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.alert-danger {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+/* Section containers */
+.container section {
+  padding: 2rem 1rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Center welcome screen */
+#welcome-screen {
+  text-align: center;
+  padding-top: 4rem;
+}

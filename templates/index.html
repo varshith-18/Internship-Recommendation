@@ -1,0 +1,134 @@
+<!-- templates/index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PM Internship Finder — Prototype</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+
+  <!-- Welcome Screen -->
+  <section id="welcome-screen" class="text-center">
+    <h1 class="mb-3">PM Internship Finder</h1>
+    <p class="lead">आपके लिए सही इंटर्नशिप खोजें</p>
+    <div class="mb-3">
+      <button class="btn btn-sm btn-outline-secondary me-2" data-lang="en">English</button>
+      <button class="btn btn-sm btn-outline-secondary" data-lang="hi">हिंदी</button>
+    </div>
+    <button id="start-btn" class="btn btn-primary btn-lg">Start / शुरू करें</button>
+  </section>
+
+  <!-- Eligibility Check -->
+  <section id="eligibility-screen" class="d-none">
+    <h2 class="mb-3">Let's check if you're eligible</h2>
+
+    <div class="mb-3">
+      <label class="form-label">What is your age?</label>
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-outline-primary" data-age="below21">Below 21</button>
+        <button class="btn btn-outline-primary" data-age="21-24">21–24 years</button>
+        <button class="btn btn-outline-primary" data-age="above24">Above 24</button>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">What is your total family annual income?</label>
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-outline-primary" data-income="lt8">Less than ₹8 Lakh</button>
+        <button class="btn btn-outline-primary" data-income="gt8">More than ₹8 Lakh</button>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="institution-check">
+        <label class="form-check-label" for="institution-check">
+          My institution is NOT an IIT, NIT, or IIIT
+        </label>
+      </div>
+    </div>
+
+    <button id="check-eligibility" class="btn btn-primary">Check Eligibility / योग्यता जांचें</button>
+    <p class="small text-muted mt-2">
+      Please provide accurate information. All details will be verified on the PM Internship Portal.
+    </p>
+  </section>
+
+  <!-- Ineligible Message -->
+  <section id="ineligible-screen" class="d-none text-center">
+    <h2>Thank you for your interest!</h2>
+    <p>
+      This scheme is only for students <strong>21–24 years old</strong> with 
+      <strong>family income under ₹8 Lakh</strong>.
+    </p>
+    <p>
+      Explore other internships on 
+      <a href="https://internship.aicte-india.org/" target="_blank">official portals</a>.
+    </p>
+  </section>
+
+  <!-- Profile Input Wizard -->
+  <section id="profile-screen" class="d-none">
+    <h2 class="mb-3">Build Your Profile</h2>
+
+    <!-- Step 1: Education -->
+    <div class="mb-3">
+      <label class="form-label">Education</label>
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-outline-primary btn-education">10th Pass</button>
+        <button class="btn btn-outline-primary btn-education">12th Pass</button>
+        <button class="btn btn-outline-primary btn-education">Diploma</button>
+        <button class="btn btn-outline-primary btn-education">Graduate</button>
+        <button class="btn btn-outline-primary btn-education">Post Graduate</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Skills -->
+    <div class="mb-3">
+      <label class="form-label">Select Your Skills</label>
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-outline-secondary bubble">Communication</button>
+        <button class="btn btn-outline-secondary bubble">MS Office</button>
+        <button class="btn btn-outline-secondary bubble">Sales</button>
+        <button class="btn btn-outline-secondary bubble">Teamwork</button>
+        <button class="btn btn-outline-secondary bubble">Python</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Interests -->
+    <div class="mb-3">
+      <label class="form-label">Select Your Interests</label>
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-outline-secondary bubble">💻 IT</button>
+        <button class="btn btn-outline-secondary bubble">🔧 Technical</button>
+        <button class="btn btn-outline-secondary bubble">🤝 Sales</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Location -->
+    <div class="mb-3">
+      <label class="form-label">Preferred Location</label>
+      <input id="location" class="form-control" placeholder="e.g. New Delhi, Pune">
+    </div>
+
+    <button id="find-btn" class="btn btn-primary">Find Internships</button>
+  </section>
+
+  <!-- Results -->
+  <section id="results-screen" class="d-none">
+    <h2 class="mb-3">Recommended Internships</h2>
+    <div id="results" class="row g-3">
+      <!-- Cards dynamically inserted by JS -->
+    </div>
+  </section>
+
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
