@@ -1,17 +1,48 @@
-# Python
+# --- Python ---
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.env
-*.venv
+*.py[cod]
+*$py.class
 
-# Jupyter
+# Virtual environments
+venv/
+.env/
+.venv/
+env/
+ENV/
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.xml
+*.cover
+*.py,cover
+.cache
+.pytest_cache/
+nosetests.xml
+*.log
+
+# Jupyter Notebook
 .ipynb_checkpoints/
+*.ipynb_checkpoints/
 
-# VS Code
+# --- VS Code ---
 .vscode/
+.history/
+*.code-workspace
 
-# OS
+# --- OS files ---
 .DS_Store
 Thumbs.db
